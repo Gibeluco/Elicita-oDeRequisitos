@@ -1,0 +1,95 @@
+Making History — Aplicativo de Delivery
+1. Acompanhar o pedido
+História de usuário
+
+Como cliente, quero acompanhar o status do meu pedido depois da compra, para saber em que etapa ele está e quando será entregue.
+
+Critérios de aceitação
+
+Critério 1
+
+Dado que o cliente realizou um pedido,
+Quando acessar a tela de acompanhamento,
+Então o sistema deve apresentar o status atual do pedido.
+
+Critério 2
+
+Dado que o status do pedido foi alterado,
+Quando o cliente acessar o acompanhamento do pedido,
+Então o sistema deve apresentar o novo status.
+
+Critério 3
+
+Dado que o pedido saiu para entrega,
+Quando o cliente consultar o pedido,
+Então o sistema deve informar que o pedido está em processo de entrega.
+2. Avisar quando um item estiver indisponível
+História de usuário
+
+Como restaurante, quero marcar um item do cardápio como indisponível, para evitar que clientes façam pedidos de produtos que não estão disponíveis.
+
+Critérios de aceitação
+
+Critério 1
+
+Dado que o item esteja cadastrado no cardápio,
+Quando o restaurante marcá-lo como indisponível,
+Então o sistema deve alterar o status do item para indisponível.
+
+Critério 2
+
+Dado que o item esteja marcado como indisponível,
+Quando o cliente visualizar o cardápio,
+Então o item deve aparecer como indisponível e não poderá ser adicionado ao pedido.
+
+Critério 3
+
+Dado que o item esteja indisponível,
+Quando o restaurante alterar o status para disponível,
+Então o sistema deve permitir novamente que o item seja adicionado aos pedidos.
+3. Reportar problema durante a entrega
+História de usuário
+
+Como entregador, quero reportar um problema durante a entrega, para informar o ocorrido e permitir que a situação seja tratada.
+
+Critérios de aceitação
+
+Critério 1
+
+Dado que o entregador esteja realizando uma entrega,
+Quando ocorrer um problema,
+Então o sistema deve permitir que ele acesse a opção de reportar problema.
+
+Critério 2
+
+Dado que o entregador tenha acessado a opção de reportar problema,
+Quando selecionar o motivo da ocorrência,
+Então o sistema deve permitir o registro do problema.
+
+Critério 3
+
+Dado que o entregador tenha informado o problema,
+Quando confirmar o envio,
+Então o sistema deve registrar a ocorrência vinculada ao pedido.
+
+Priorização MoSCoW
+Prioridade	Funcionalidade
+Must Have	Cliente acompanhar o pedido
+Must Have	Restaurante informar item indisponível
+Must Have	Entregador reportar problema
+Should Have	Atualização do status do pedido
+Should Have	Exibição clara de itens indisponíveis
+Should Have	Registro da ocorrência vinculada ao pedido
+Could Have	Permitir que o entregador adicione detalhes ao problema
+Could Have	Permitir que o restaurante adicione uma observação sobre a indisponibilidade
+Won't Have	Funcionalidades adicionais que não fazem parte das três necessidades apresentadas
+Prioridade	Funcionalidade
+Must Have	Cliente acompanhar o pedido
+Must Have	Restaurante informar item indisponível
+Must Have	Entregador reportar problema
+Should Have	Atualização do status do pedido
+Should Have	Exibição clara de itens indisponíveis
+Should Have	Registro da ocorrência vinculada ao pedido
+Could Have	Permitir que o entregador adicione detalhes ao problema
+Could Have	Permitir que o restaurante adicione uma observação sobre a indisponibilidade
+Won't Have	Funcionalidades adicionais que não fazem parte das três necessidades apresentadas
