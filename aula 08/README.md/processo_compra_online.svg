@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1240" height="650" viewBox="0 0 1240 650">
+<defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#333"/></marker><marker id="msg" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3" fill="none" stroke="#555"/></marker></defs>
+<style>text{font-family:Arial,sans-serif;fill:#222;font-size:13px}.pool{fill:#fff;stroke:#333;stroke-width:1.5}.lane{fill:#fff;stroke:#888}.task{fill:#fff;stroke:#333;stroke-width:1.5}.event{fill:#fff;stroke:#333;stroke-width:2}.gateway{fill:#fff;stroke:#333;stroke-width:1.5}.seq{fill:none;stroke:#333;stroke-width:1.5;marker-end:url(#arrow)}.msg{fill:none;stroke:#555;stroke-width:1.4;stroke-dasharray:7 5;marker-end:url(#msg)}.label{font-size:12px;text-anchor:middle}.small{font-size:11px}</style>
+<rect class="pool" x="100" y="60" width="1100" height="90"/><text x="112" y="108" font-weight="bold">CLIENTE</text>
+<rect class="pool" x="100" y="210" width="1100" height="390"/><rect class="lane" x="130" y="210" width="1070" height="190"/><rect class="lane" x="130" y="400" width="1070" height="200"/>
+<text x="112" y="420" transform="rotate(-90 112 420)" font-weight="bold">LOJA ONLINE</text><text x="140" y="230" class="small">ATENDIMENTO</text><text x="140" y="420" class="small">ESTOQUE E EXPEDIÇÃO</text>
+<circle class="event" cx="183" cy="303" r="18"/><text x="183" y="342" class="label">Pedido recebido</text>
+<rect class="task" x="230" y="270" width="110" height="65" rx="8"/><text x="285" y="297" class="label"><tspan x="285">Registrar</tspan><tspan x="285" dy="15">pedido</tspan></text>
+<rect class="task" x="375" y="270" width="125" height="65" rx="8"/><text x="437" y="295" class="label"><tspan x="437">Enviar link de</tspan><tspan x="437" dy="15">pagamento</tspan></text>
+<rect class="task" x="540" y="270" width="130" height="65" rx="8"/><text x="605" y="295" class="label"><tspan x="605">Confirmar</tspan><tspan x="605" dy="15">pagamento</tspan></text>
+<polygon class="gateway" points="735,280 760,305 735,330 710,305"/><text x="735" y="310" text-anchor="middle" font-size="18">×</text><text x="735" y="265" class="small" text-anchor="middle">Aprovado?</text>
+<polygon class="gateway" points="835,280 860,305 835,330 810,305"/><text x="835" y="311" text-anchor="middle" font-size="20">+</text>
+<rect class="task" x="900" y="430" width="115" height="65" rx="8"/><text x="957" y="457" class="label"><tspan x="957">Separar</tspan><tspan x="957" dy="15">produto</tspan></text>
+<rect class="task" x="900" y="515" width="115" height="65" rx="8"/><text x="957" y="542" class="label"><tspan x="957">Emitir nota</tspan><tspan x="957" dy="15">fiscal</tspan></text>
+<polygon class="gateway" points="1065,475 1090,500 1065,525 1040,500"/><text x="1065" y="506" text-anchor="middle" font-size="20">+</text>
+<rect class="task" x="1105" y="430" width="90" height="65" rx="8"/><text x="1150" y="457" class="label"><tspan x="1150">Embalar e</tspan><tspan x="1150" dy="15">enviar</tspan></text>
+<rect class="task" x="1090" y="270" width="100" height="65" rx="8"/><text x="1140" y="295" class="label"><tspan x="1140">Enviar</tspan><tspan x="1140" dy="15">confirmação</tspan></text>
+<circle class="event" cx="1158" cy="368" r="18" stroke-width="4"/><text x="1158" y="397" class="label">Fim</text>
+<path class="seq" d="M201 303 H230 M340 303 H375 M500 303 H540 M670 303 H710 M760 305 H810 M835 330 V462 H900 M835 330 V547 H900 M1015 462 H1065 V475 M1015 547 H1065 V525 M1090 500 L1105 462 M1150 430 V335 M1140 303 H1158 V350"/>
+<path class="seq" d="M735 330 V370 H1158"/><text x="770" y="363" class="small">Não</text><text x="780" y="294" class="small">Sim</text>
+<path class="msg" d="M180 150 L285 270"/><text x="205" y="194" class="small">Pedido</text>
+<path class="msg" d="M440 270 V150"/><text x="450" y="205" class="small">Link de pagamento</text>
+<path class="msg" d="M700 150 L605 270"/><text x="630" y="192" class="small">Pagamento</text>
+<path class="msg" d="M1140 270 L1000 150"/><text x="1050" y="198" class="small">Confirmação</text>
+</svg>

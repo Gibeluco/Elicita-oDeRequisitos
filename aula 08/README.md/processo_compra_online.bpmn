@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+ xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+ xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+ xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+ id="Definitions_CompraOnline" targetNamespace="http://example.com/bpmn">
+ <bpmn:collaboration id="Collaboration_Compra">
+  <bpmn:participant id="Participant_Cliente" name="CLIENTE"/>
+  <bpmn:participant id="Participant_Loja" name="LOJA ONLINE" processRef="Process_Loja"/>
+  <bpmn:messageFlow id="MessageFlow_Pedido" name="Pedido" sourceRef="Participant_Cliente" targetRef="Task_ReceberPedido"/>
+  <bpmn:messageFlow id="MessageFlow_Link" name="Link de pagamento" sourceRef="Task_EnviarLink" targetRef="Participant_Cliente"/>
+  <bpmn:messageFlow id="MessageFlow_Pagamento" name="Confirmação de pagamento" sourceRef="Participant_Cliente" targetRef="Task_ConfirmarPagamento"/>
+  <bpmn:messageFlow id="MessageFlow_Confirmacao" name="Confirmação do pedido" sourceRef="Task_EnviarConfirmacao" targetRef="Participant_Cliente"/>
+ </bpmn:collaboration>
+ <bpmn:process id="Process_Loja" isExecutable="false">
+  <bpmn:laneSet id="LaneSet_Loja">
+   <bpmn:lane id="Lane_Atendimento" name="ATENDIMENTO">
+    <bpmn:flowNodeRef>StartEvent_Inicio</bpmn:flowNodeRef>
+    <bpmn:flowNodeRef>Task_ReceberPedido</bpmn:flowNodeRef>
+    <bpmn:flowNodeRef>Task_EnviarLink</bpmn:flowNodeRef>
+    <bpmn:flowNodeRef>Task_ConfirmarPagamento</bpmn:flowNodeRef>
+    <bpmn:flowNodeRef>Gateway_Aprovado</bpmn:flowNodeRef>
+    <bpmn:flowNodeRef>Gateway_Paralelo</bpmn:flowNodeRef>
+    <bpmn:flowNodeRef>Gateway_Juncao</bpmn:flowNodeRef>
+    <bpmn:flowNodeRef>Task_EnviarConfirmacao</bpmn:flowNodeRef>
+    <bpmn:flowNodeRef>EndEvent_Fim</bpmn:flowNodeRef>
+   </bpmn:lane>
+   <bpmn:lane id="Lane_Estoque" name="ESTOQUE E EXPEDIÇÃO">
+    <bpmn:flowNodeRef>Task_SepararProduto</bpmn:flowNodeRef>
+    <bpmn:flowNodeRef>Task_EmitirNota</bpmn:flowNodeRef>
+    <bpmn:flowNodeRef>Task_EmbalarEnviar</bpmn:flowNodeRef>
+   </bpmn:lane>
+  </bpmn:laneSet>
+  <bpmn:startEvent id="StartEvent_Inicio" name="Pedido recebido"/>
+  <bpmn:task id="Task_ReceberPedido" name="Registrar pedido"/>
+  <bpmn:task id="Task_EnviarLink" name="Enviar link de pagamento"/>
+  <bpmn:task id="Task_ConfirmarPagamento" name="Confirmar pagamento"/>
+  <bpmn:exclusiveGateway id="Gateway_Aprovado" name="Pagamento aprovado?"/>
+  <bpmn:parallelGateway id="Gateway_Paralelo" name="Executar em paralelo" gatewayDirection="Diverging"/>
+  <bpmn:task id="Task_SepararProduto" name="Separar produto"/>
+  <bpmn:task id="Task_EmitirNota" name="Emitir nota fiscal"/>
+  <bpmn:parallelGateway id="Gateway_Juncao" name="Aguardar as duas atividades" gatewayDirection="Converging"/>
+  <bpmn:task id="Task_EmbalarEnviar" name="Embalar e enviar pedido"/>
+  <bpmn:task id="Task_EnviarConfirmacao" name="Enviar confirmação ao cliente"/>
+  <bpmn:endEvent id="EndEvent_Fim" name="Pedido enviado"/>
+  <bpmn:sequenceFlow id="Flow_1" sourceRef="StartEvent_Inicio" targetRef="Task_ReceberPedido"/>
+  <bpmn:sequenceFlow id="Flow_2" sourceRef="Task_ReceberPedido" targetRef="Task_EnviarLink"/>
+  <bpmn:sequenceFlow id="Flow_3" sourceRef="Task_EnviarLink" targetRef="Task_ConfirmarPagamento"/>
+  <bpmn:sequenceFlow id="Flow_4" sourceRef="Task_ConfirmarPagamento" targetRef="Gateway_Aprovado"/>
+  <bpmn:sequenceFlow id="Flow_Nao" name="Não" sourceRef="Gateway_Aprovado" targetRef="EndEvent_Fim"/>
+  <bpmn:sequenceFlow id="Flow_Sim" name="Sim" sourceRef="Gateway_Aprovado" targetRef="Gateway_Paralelo"/>
+  <bpmn:sequenceFlow id="Flow_5" sourceRef="Gateway_Paralelo" targetRef="Task_SepararProduto"/>
+  <bpmn:sequenceFlow id="Flow_6" sourceRef="Gateway_Paralelo" targetRef="Task_EmitirNota"/>
+  <bpmn:sequenceFlow id="Flow_7" sourceRef="Task_SepararProduto" targetRef="Gateway_Juncao"/>
+  <bpmn:sequenceFlow id="Flow_8" sourceRef="Task_EmitirNota" targetRef="Gateway_Juncao"/>
+  <bpmn:sequenceFlow id="Flow_9" sourceRef="Gateway_Juncao" targetRef="Task_EmbalarEnviar"/>
+  <bpmn:sequenceFlow id="Flow_10" sourceRef="Task_EmbalarEnviar" targetRef="Task_EnviarConfirmacao"/>
+  <bpmn:sequenceFlow id="Flow_11" sourceRef="Task_EnviarConfirmacao" targetRef="EndEvent_Fim"/>
+ </bpmn:process>
+ <bpmndi:BPMNDiagram id="BPMNDiagram_Compra">
+  <bpmndi:BPMNPlane id="BPMNPlane_Compra" bpmnElement="Collaboration_Compra">
+   <bpmndi:BPMNShape id="Shape_Cliente" bpmnElement="Participant_Cliente" isHorizontal="true">
+    <dc:Bounds x="100" y="60" width="1100" height="90"/>
+   </bpmndi:BPMNShape>
+   <bpmndi:BPMNShape id="Shape_Loja" bpmnElement="Participant_Loja" isHorizontal="true">
+    <dc:Bounds x="100" y="210" width="1100" height="390"/>
+   </bpmndi:BPMNShape>
+   <bpmndi:BPMNShape id="Shape_LaneAtendimento" bpmnElement="Lane_Atendimento" isHorizontal="true">
+    <dc:Bounds x="130" y="210" width="1070" height="190"/>
+   </bpmndi:BPMNShape>
+   <bpmndi:BPMNShape id="Shape_LaneEstoque" bpmnElement="Lane_Estoque" isHorizontal="true">
+    <dc:Bounds x="130" y="400" width="1070" height="200"/>
+   </bpmndi:BPMNShape>
+   <bpmndi:BPMNShape id="Shape_Start" bpmnElement="StartEvent_Inicio"><dc:Bounds x="165" y="285" width="36" height="36"/></bpmndi:BPMNShape>
+   <bpmndi:BPMNShape id="Shape_Receber" bpmnElement="Task_ReceberPedido"><dc:Bounds x="230" y="270" width="110" height="65"/></bpmndi:BPMNShape>
+   <bpmndi:BPMNShape id="Shape_Link" bpmnElement="Task_EnviarLink"><dc:Bounds x="375" y="270" width="125" height="65"/></bpmndi:BPMNShape>
+   <bpmndi:BPMNShape id="Shape_Confirmar" bpmnElement="Task_ConfirmarPagamento"><dc:Bounds x="540" y="270" width="130" height="65"/></bpmndi:BPMNShape>
+   <bpmndi:BPMNShape id="Shape_Excl" bpmnElement="Gateway_Aprovado"><dc:Bounds x="710" y="280" width="50" height="50"/></bpmndi:BPMNShape>
+   <bpmndi:BPMNShape id="Shape_Par" bpmnElement="Gateway_Paralelo"><dc:Bounds x="810" y="280" width="50" height="50"/></bpmndi:BPMNShape>
+   <bpmndi:BPMNShape id="Shape_Separar" bpmnElement="Task_SepararProduto"><dc:Bounds x="900" y="430" width="115" height="65"/></bpmndi:BPMNShape>
+   <bpmndi:BPMNShape id="Shape_Nota" bpmnElement="Task_EmitirNota"><dc:Bounds x="900" y="515" width="115" height="65"/></bpmndi:BPMNShape>
+   <bpmndi:BPMNShape id="Shape_Join" bpmnElement="Gateway_Juncao"><dc:Bounds x="1040" y="475" width="50" height="50"/></bpmndi:BPMNShape>
+   <bpmndi:BPMNShape id="Shape_Enviar" bpmnElement="Task_EmbalarEnviar"><dc:Bounds x="1105" y="430" width="90" height="65"/></bpmndi:BPMNShape>
+   <bpmndi:BPMNShape id="Shape_Confirma" bpmnElement="Task_EnviarConfirmacao"><dc:Bounds x="1090" y="270" width="100" height="65"/></bpmndi:BPMNShape>
+   <bpmndi:BPMNShape id="Shape_End" bpmnElement="EndEvent_Fim"><dc:Bounds x="1140" y="350" width="36" height="36"/></bpmndi:BPMNShape>
+   <bpmndi:BPMNEdge id="Edge_1" bpmnElement="Flow_1"><di:waypoint x="201" y="303"/><di:waypoint x="230" y="303"/></bpmndi:BPMNEdge>
+   <bpmndi:BPMNEdge id="Edge_2" bpmnElement="Flow_2"><di:waypoint x="340" y="303"/><di:waypoint x="375" y="303"/></bpmndi:BPMNEdge>
+   <bpmndi:BPMNEdge id="Edge_3" bpmnElement="Flow_3"><di:waypoint x="500" y="303"/><di:waypoint x="540" y="303"/></bpmndi:BPMNEdge>
+   <bpmndi:BPMNEdge id="Edge_4" bpmnElement="Flow_4"><di:waypoint x="670" y="303"/><di:waypoint x="710" y="305"/></bpmndi:BPMNEdge>
+   <bpmndi:BPMNEdge id="Edge_Sim" bpmnElement="Flow_Sim"><di:waypoint x="760" y="305"/><di:waypoint x="810" y="305"/></bpmndi:BPMNEdge>
+   <bpmndi:BPMNEdge id="Edge_Nao" bpmnElement="Flow_Nao"><di:waypoint x="735" y="330"/><di:waypoint x="735" y="370"/><di:waypoint x="1140" y="370"/></bpmndi:BPMNEdge>
+   <bpmndi:BPMNEdge id="Edge_5" bpmnElement="Flow_5"><di:waypoint x="835" y="330"/><di:waypoint x="835" y="462"/><di:waypoint x="900" y="462"/></bpmndi:BPMNEdge>
+   <bpmndi:BPMNEdge id="Edge_6" bpmnElement="Flow_6"><di:waypoint x="835" y="330"/><di:waypoint x="835" y="547"/><di:waypoint x="900" y="547"/></bpmndi:BPMNEdge>
+   <bpmndi:BPMNEdge id="Edge_7" bpmnElement="Flow_7"><di:waypoint x="1015" y="462"/><di:waypoint x="1065" y="462"/><di:waypoint x="1065" y="475"/></bpmndi:BPMNEdge>
+   <bpmndi:BPMNEdge id="Edge_8" bpmnElement="Flow_8"><di:waypoint x="1015" y="547"/><di:waypoint x="1065" y="547"/><di:waypoint x="1065" y="525"/></bpmndi:BPMNEdge>
+   <bpmndi:BPMNEdge id="Edge_9" bpmnElement="Flow_9"><di:waypoint x="1090" y="500"/><di:waypoint x="1105" y="462"/></bpmndi:BPMNEdge>
+   <bpmndi:BPMNEdge id="Edge_10" bpmnElement="Flow_10"><di:waypoint x="1150" y="430"/><di:waypoint x="1150" y="335"/></bpmndi:BPMNEdge>
+   <bpmndi:BPMNEdge id="Edge_11" bpmnElement="Flow_11"><di:waypoint x="1140" y="303"/><di:waypoint x="1158" y="303"/><di:waypoint x="1158" y="350"/></bpmndi:BPMNEdge>
+   <bpmndi:BPMNEdge id="Edge_MsgPedido" bpmnElement="MessageFlow_Pedido"><di:waypoint x="180" y="150"/><di:waypoint x="285" y="270"/></bpmndi:BPMNEdge>
+   <bpmndi:BPMNEdge id="Edge_MsgLink" bpmnElement="MessageFlow_Link"><di:waypoint x="440" y="270"/><di:waypoint x="440" y="150"/></bpmndi:BPMNEdge>
+   <bpmndi:BPMNEdge id="Edge_MsgPag" bpmnElement="MessageFlow_Pagamento"><di:waypoint x="700" y="150"/><di:waypoint x="605" y="270"/></bpmndi:BPMNEdge>
+   <bpmndi:BPMNEdge id="Edge_MsgConf" bpmnElement="MessageFlow_Confirmacao"><di:waypoint x="1140" y="270"/><di:waypoint x="1000" y="150"/></bpmndi:BPMNEdge>
+  </bpmndi:BPMNPlane>
+ </bpmndi:BPMNDiagram>
+</bpmn:definitions>
