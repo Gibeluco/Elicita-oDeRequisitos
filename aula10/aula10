@@ -1,0 +1,117 @@
+Gestão de Férias
+1. Escopo
+O objetivo do sistema é facilitar a solicitação e o controle das férias dos funcionários de uma empresa. Atualmente, os pedidos são feitos manualmente, o que pode causar demora na aprovação e dificuldade para acompanhar as datas.
+
+Com o sistema, os funcionários poderão realizar suas solicitações pela internet e acompanhar o andamento sem precisar procurar o gerente.
+
+O sistema vai fazer:
+- Permitir que os colaboradores solicitem férias online.
+- Mostrar a quantidade de dias disponíveis.
+- Permitir que os gerentes analisem e aprovem ou rejeitem solicitações.
+- Avisar quando houver conflito entre as férias de funcionários.
+- Permitir que o RH consulte e registre as férias aprovadas.
+O sistema não vai fazer:
+- Organizar os horários e turnos dos funcionários.
+- Realizar pagamentos ou calcular valores das férias.
+- Contratar ou substituir funcionários durante os períodos de ausência.
+2. Processo
+O funcionário acessa o sistema, informa o período desejado e envia a solicitação. O gerente recebe o pedido e verifica a disponibilidade da equipe.
+
+Caso existam conflitos, o gerente poderá avaliar outras datas. Depois da análise, o pedido será aprovado ou recusado. O funcionário receberá uma notificação com o resultado.
+
+Quando aprovado, o RH poderá consultar os dados e realizar o registro das férias.
+3. Personas
+Ana — colaboradora: trabalha no atendimento e deseja solicitar suas férias de maneira rápida, sem precisar preencher documentos físicos.
+
+Marcos — supervisor: é responsável por acompanhar a equipe e verificar se as solicitações não prejudicam o funcionamento da empresa.
+
+Patrícia — analista de RH: responsável por manter os dados dos funcionários atualizados e registrar os períodos de férias aprovados.
+4. Diagrama de casos de uso
+@startuml
+left to right direction
+
+actor Colaborador
+actor Supervisor
+actor RH
+actor "Sistema de Folha" as Folha
+
+rectangle "Sistema de Gestão de Férias" {
+    usecase "Solicitar férias" as A
+    usecase "Acompanhar solicitação" as B
+    usecase "Avaliar solicitação" as C
+    usecase "Consultar férias da equipe" as D
+    usecase "Aprovar ou rejeitar pedido" as E
+    usecase "Cadastrar férias aprovadas" as F
+}
+
+Colaborador --> A
+Colaborador --> B
+Supervisor --> C
+Supervisor --> D
+C --> E
+RH --> F
+F --> Folha
+
+@enduml
+
+
+5. Caso de uso: Solicitar férias
+Quem utiliza: Colaborador.
+
+Quando: Quando desejar programar seu período de descanso.
+
+Pré-requisito: Estar cadastrado e conectado ao sistema.
+
+Resultado: Solicitação registrada para análise do supervisor.
+
+Fluxo principal:
+1. O colaborador entra no sistema.
+2. Seleciona a opção de solicitar férias.
+3. O sistema apresenta o saldo de dias disponíveis.
+4. O colaborador escolhe a data de início e a quantidade de dias.
+5. O sistema verifica se as informações estão corretas.
+6. O sistema apresenta os dados para conferência.
+7. O colaborador confirma o envio.
+8. O sistema registra a solicitação.
+9. O supervisor recebe uma notificação.
+Fluxo alternativo — alteração das datas:
+- Antes de confirmar, o colaborador pode alterar o período escolhido.
+- O sistema atualiza as informações para uma nova conferência.
+Fluxo de erro — saldo insuficiente:
+- Caso a quantidade solicitada seja maior que o saldo disponível, o sistema apresenta um aviso.
+- O colaborador deverá informar uma quantidade menor.
+Cancelamento:
+
+- Se o colaborador sair da solicitação antes de confirmar, nenhuma informação será registrada.
+6. Histórias e critérios de aceitação
+História 1: Como colaborador, quero solicitar minhas férias pela internet para facilitar o processo.
+Situação	Resultado esperado
+Informo um período dentro do saldo disponível	O pedido é registrado
+Solicito mais dias do que tenho disponíveis	O sistema apresenta um aviso
+Saio antes de confirmar	O pedido não é enviado
+
+História 2: Como colaborador, quero acompanhar minhas solicitações para saber a situação dos meus pedidos.
+Situação	Resultado esperado
+Consulto minhas solicitações	O sistema mostra todos os pedidos
+Meu pedido é aprovado	O status aparece como aprovado
+Meu pedido é rejeitado	O sistema apresenta a justificativa
+
+História 3: Como supervisor, quero analisar as solicitações para evitar problemas na organização da equipe.
+Situação	Resultado esperado
+Recebo uma nova solicitação	Consigo visualizar os dados do pedido
+Existem funcionários de férias no mesmo período	O sistema apresenta os possíveis conflitos
+Rejeito uma solicitação	Preciso informar o motivo
+
+História 4: Como profissional do RH, quero acessar os pedidos aprovados para manter os registros atualizados.
+Situação	Resultado esperado
+Acesso um pedido aprovado	Consigo visualizar os dados do funcionário
+Registro as férias	As informações são encaminhadas ao sistema de folha
+
+7. Regras de negócio
+Regra	Descrição
+Saldo de férias	O funcionário não pode solicitar mais dias do que possui disponíveis.
+Divisão das férias	As férias podem ser divididas em até três períodos, respeitando os limites legais.
+Abono de férias	O funcionário pode converter até um terço das férias em abono pecuniário.
+Aprovação	Toda solicitação precisa passar pela análise do supervisor.
+Justificativa	Caso o pedido seja rejeitado, o supervisor deverá informar o motivo.
+Registro	Somente férias aprovadas poderão ser encaminhadas ao RH para registro.
